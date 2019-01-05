@@ -1,0 +1,22 @@
+{
+  "name": "ventana_johari_cinco_grandes",
+  "version": "1.0.0",
+  "description": "El siguiente programa pretende saber la personalidad de una persona de acuerdo a la observacion de la misma persona y de las demas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cinco",
+    "grandes"
+  ],
+  "author": "Andres Manuel Arias Ariza",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chart.js": "^2.7.42",
+    "@types/node": "^10.12.18"
+  },
+  "dependencies": {
+    "chart.js": "^2.7.3"
+  }
+}
