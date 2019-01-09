@@ -1,6 +1,13 @@
 "use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs = require('fs');
+const fs = __importStar(require("fs"));
 function encapsularHTML(esqueletoHTML) {
     return `
 <!DOCTYPE html>
@@ -26,42 +33,104 @@ function encapsularHTML(esqueletoHTML) {
 </body>    
 </html>  `;
 }
-function graficarBarras(x, y, optionGrafi) {
-    let option = {};
-    option.data = {};
-    option.data['labels'] = x;
-    option.data['datasets'] = [];
-    y.forEach((d) => {
-        let datasets = {};
-        var randomColor = Math.floor(Math.random() * 16777215).toString(16);
-        datasets['borderColor'] = `#${randomColor}`;
-        datasets['backgroundColor'] = `#${randomColor}`;
-        datasets.data = d.y;
-        datasets.label = d.title;
-        option.data['datasets'].push(datasets);
-    });
-    return `
+function GraficarBarras() {
+    let randomColor = [];
+    return (x, y, optionGrafi) => {
+        let option = {};
+        option.data = {};
+        option.data['labels'] = x;
+        option.data['datasets'] = [];
+        y.forEach((d, index) => {
+            let datasets = {};
+            if (randomColor.length < y.length) {
+                randomColor.push(Math.floor(Math.random() * 16777215).toString(16));
+            }
+            datasets['borderColor'] = `#${randomColor[index]}`;
+            datasets['backgroundColor'] = `#${randomColor[index]}`;
+            datasets.data = d.y;
+            datasets.label = d.title;
+            option.data['datasets'].push(datasets);
+        });
+        return `
+        var ctx = document.getElementById('d${optionGrafi.id}').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: ${JSON.stringify(option.data)},
+            options: {
+                title: {
+                    display: true,
+                    text: '${optionGrafi.title}'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });`;
+    };
+}
+let graficarBarras = GraficarBarras();
+function Torta() {
+    let colorX = [];
+    return (x, y, optionGrafi) => {
+        let option = {};
+        option.data = {};
+        option.data['labels'] = x;
+        option.data['datasets'] = [];
+        if (colorX.length < x.length) {
+            x.forEach(() => {
+                colorX.push(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
+            });
+        }
+        y.forEach((d) => {
+            let datasets = {};
+            datasets['backgroundColor'] = colorX;
+            datasets.data = d.y;
+            datasets.label = d.title;
+            option.data['datasets'].push(datasets);
+        });
+        return `
     var ctx = document.getElementById('d${optionGrafi.id}').getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'pie',
         data: ${JSON.stringify(option.data)},
         options: {
             title: {
                 display: true,
                 text: '${optionGrafi.title}'
             },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
+            legend: {
+                display: true,
+                position: "bottom",
+                labels: {
+                    fontColor: "#333",
+                    fontSize: 16
+                }
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        console.log('data',data)
+                        console.log('tooltipItem',tooltipItem)
+                        var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                        var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] || ''
+                        var labels  = data.labels[tooltipItem.index]
+                        var total = data.datasets[tooltipItem.datasetIndex].data.reduce((a,b)=>a+b)
+                        var valuePorcentaje = Math.floor(value/total*100)
+                        return labels+' - '+label+": "+valuePorcentaje+" %";
                     }
-                }]
+                }
             }
         }
     });`;
+    };
 }
+let graficarTorta = Torta();
 function canvas(id) {
-    return `<canvas id="d${id}" width="441" height="220" class="chartjs-render-monitor" style="display: block; width: 441px; height: 220px;"></canvas>`;
+    return `<canvas id="d${id}" width="441" height="220" class="chartjs-render-monitor" style="display: block; width: 441px; height: 220px;"></canvas> <hr > \n`;
 }
 class Graficar {
     constructor(configurarGraficar) {
@@ -97,13 +166,13 @@ class Graficar {
     //     }
     //     return elementGrafit; 
     //  }
-    graficarBarras(x, y, OptionGrafi) {
+    grafit(funcionGrafica, x, y, OptionGrafi) {
         let optionGrafi = OptionGrafi ? OptionGrafi : {};
         let indice = optionGrafi['id'] ? optionGrafi['id'] : this.colectionElementGrafit.length;
         optionGrafi['id'] = indice;
         let elementGrafit = {
             element: canvas(indice),
-            codigo: graficarBarras(x, y, optionGrafi)
+            codigo: funcionGrafica(x, y, optionGrafi)
         };
         this.colectionElementGrafit.push(elementGrafit);
         if (this.configurarGraficar) {
@@ -125,6 +194,12 @@ class Graficar {
             });
         }
         return elementGrafit;
+    }
+    graficarBarras(x, y, OptionGrafi) {
+        return this.grafit(graficarBarras, x, y, OptionGrafi);
+    }
+    graficarTorta(x, y, OptionGrafi) {
+        return this.grafit(graficarTorta, x, y, OptionGrafi);
     }
 }
 exports.Graficar = Graficar;

@@ -1,5 +1,5 @@
-const fs = require('fs');
-import Chart from 'chart.js';
+import * as fs from 'fs';
+import  * as Chart from 'chart.js';
  
 
 interface EsqueletoHTML {
@@ -68,16 +68,65 @@ interface ColumY{
 interface Y {
     y:number[],title:string
 }
-function      graficarBarras(x:Array<string | string[]>,y:Y[],optionGrafi?:OptionGrafi):string{
+function  GraficarBarras():(x:Array<string | string[]>,y:Y[],optionGrafi?:OptionGrafi)=>string{
+    let randomColor:string[] = []
+    return (x:Array<string | string[]>,y:Y[],optionGrafi?:OptionGrafi):string =>{
+        let option :Chart.ChartConfiguration = {};
+        option.data = {}    
+        option.data['labels'] = x;
+        option.data['datasets'] = [];
+        y.forEach((d,index)=>{
+            let datasets:Chart.ChartDataSets = {}
+            if(randomColor.length < y.length){
+                randomColor.push(Math.floor(Math.random()*16777215).toString(16));
+            }
+            datasets['borderColor'] = `#${randomColor[index]}`;
+            datasets['backgroundColor'] = `#${randomColor[index]}`;
+            datasets.data = d.y;
+            datasets.label = d.title;
+            option.data['datasets'].push(datasets);
+        })
+        return `
+        var ctx = document.getElementById('d${optionGrafi.id}').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: ${JSON.stringify(option.data)},
+            options: {
+                title: {
+                    display: true,
+                    text: '${optionGrafi.title}'
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });`
+    }
+}
+let graficarBarras = GraficarBarras()
+
+function Torta():(x:Array<string | string[]>,y:Y[],optionGrafi?:OptionGrafi)=>string {
+    let  colorX:string[] = []
+
+    return (x:Array<string | string[]>,y:Y[],optionGrafi?:OptionGrafi):string =>{
     let option :Chart.ChartConfiguration = {};
     option.data = {}    
     option.data['labels'] = x;
     option.data['datasets'] = [];
+    if(colorX.length < x.length){
+        x.forEach(()=>{
+            colorX.push(`#${Math.floor(Math.random()*16777215).toString(16)}` );
+        })
+    }
+
     y.forEach((d)=>{
         let datasets:Chart.ChartDataSets = {}
-        var randomColor = Math.floor(Math.random()*16777215).toString(16);
-        datasets['borderColor'] = `#${randomColor}`;
-        datasets['backgroundColor'] = `#${randomColor}`;
+
+        datasets['backgroundColor'] = colorX;
         datasets.data = d.y;
         datasets.label = d.title;
         option.data['datasets'].push(datasets);
@@ -85,23 +134,40 @@ function      graficarBarras(x:Array<string | string[]>,y:Y[],optionGrafi?:Optio
     return `
     var ctx = document.getElementById('d${optionGrafi.id}').getContext('2d');
     var myChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'pie',
         data: ${JSON.stringify(option.data)},
         options: {
             title: {
                 display: true,
                 text: '${optionGrafi.title}'
             },
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero:true
+            legend: {
+                display: true,
+                position: "bottom",
+                labels: {
+                    fontColor: "#333",
+                    fontSize: 16
+                }
+            },
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        console.log('data',data)
+                        console.log('tooltipItem',tooltipItem)
+                        var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                        var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] || ''
+                        var labels  = data.labels[tooltipItem.index]
+                        var total = data.datasets[tooltipItem.datasetIndex].data.reduce((a,b)=>a+b)
+                        var valuePorcentaje = Math.floor(value/total*100)
+                        return labels+' - '+label+": "+valuePorcentaje+" %";
                     }
-                }]
+                }
             }
         }
     });`
  }
+}
+let  graficarTorta =   Torta()
 //  function graficaLine(data:JSON[],columX:string,columY:ColumY,optionGrafi:OptionGrafi):string {
 //     return  `
 //          var ctx = document.getElementById('d${optionGrafi.id}').getContext('2d');
@@ -146,11 +212,11 @@ function      graficarBarras(x:Array<string | string[]>,y:Y[],optionGrafi?:Optio
     codigo:string
  }
  interface OptionGrafi{
-     id:number,
+     id:number|string,
      title:string
  }
  function canvas(id:number):string{
-     return `<canvas id="d${id}" width="441" height="220" class="chartjs-render-monitor" style="display: block; width: 441px; height: 220px;"></canvas>`
+     return `<canvas id="d${id}" width="441" height="220" class="chartjs-render-monitor" style="display: block; width: 441px; height: 220px;"></canvas> <hr > \n`
  }
  export class Graficar{
     private configurarGraficar:ConfigurarGraficar
@@ -188,13 +254,13 @@ function      graficarBarras(x:Array<string | string[]>,y:Y[],optionGrafi?:Optio
     //     }
     //     return elementGrafit; 
     //  }
-     graficarBarras(x:Array<string | string[]>,y:Y[],OptionGrafi?:OptionGrafi):ElementGrafit{
+    grafit(funcionGrafica:(x:Array<string | string[]>,y:Y[],OptionGrafi?:OptionGrafi)=>string,x:Array<string | string[]>,y:Y[],OptionGrafi?:OptionGrafi):ElementGrafit{      
         let optionGrafi:OptionGrafi|any = OptionGrafi?OptionGrafi:{}
         let indice =  optionGrafi['id'] ? optionGrafi['id']:this.colectionElementGrafit.length;
         optionGrafi['id'] = indice;
         let elementGrafit:ElementGrafit = {
             element:canvas(indice),
-            codigo:graficarBarras(x,y,optionGrafi)
+            codigo:funcionGrafica(x,y,optionGrafi)
         };
         this.colectionElementGrafit.push(elementGrafit);
         if( this.configurarGraficar){
@@ -216,5 +282,12 @@ function      graficarBarras(x:Array<string | string[]>,y:Y[],optionGrafi?:Optio
             });
         }
         return elementGrafit; 
+         
+    }
+     graficarBarras(x:Array<string | string[]>,y:Y[],OptionGrafi?:OptionGrafi):ElementGrafit{
+       return this.grafit(graficarBarras,x,y,OptionGrafi)
      }
+     graficarTorta(x:Array<string | string[]>,y:Y[],OptionGrafi?:OptionGrafi):ElementGrafit{
+        return this.grafit(graficarTorta,x,y,OptionGrafi)
+      }
  }

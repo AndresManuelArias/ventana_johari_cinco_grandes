@@ -1,4 +1,4 @@
-import fs from 'fs';
+import * as fs from 'fs';
 
 import {Graficar} from './Graficar';
 
@@ -26,5 +26,7 @@ objectVentanaDeHonaryBigFive.forEach((people,index)=>{
         }) 
         puntajeZonas.push({y:y,title:zona})
     }) 
-    graficar.graficarBarras(bigFive,puntajeZonas,{id:index,title:people['nombre usuario']})
+    graficar.graficarTorta(bigFive,puntajeZonas,{id:index+'p',title:people['nombre usuario']})
+    graficar.graficarBarras(bigFive,puntajeZonas,{id:index+'b',title:people['nombre usuario']})
+
 })
