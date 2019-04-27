@@ -222,7 +222,7 @@ let  graficarTorta =   Torta()
     private configurarGraficar:ConfigurarGraficar
     private colectionElementGrafit:ElementGrafit[]
     constructor(configurarGraficar?:ConfigurarGraficar){
-        this.colectionElementGrafit = [];
+        this.colectionElementGrafit = [{element:"",codigo:""}];
         if(configurarGraficar){
             this.configurarGraficar = configurarGraficar;
         }
@@ -278,6 +278,8 @@ let  graficarTorta =   Torta()
                 if (error)
                     console.log(error);
                 else
+                    console.log('body',body,
+                        'body',codigo)
                     console.log(`grafica barra agregada`);
             });
         }

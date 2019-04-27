@@ -134,7 +134,7 @@ function canvas(id) {
 }
 class Graficar {
     constructor(configurarGraficar) {
-        this.colectionElementGrafit = [];
+        this.colectionElementGrafit = [{ element: "", codigo: "" }];
         if (configurarGraficar) {
             this.configurarGraficar = configurarGraficar;
         }
@@ -190,7 +190,8 @@ class Graficar {
                 if (error)
                     console.log(error);
                 else
-                    console.log(`grafica barra agregada`);
+                    console.log('body', body, 'body', codigo);
+                console.log(`grafica barra agregada`);
             });
         }
         return elementGrafit;

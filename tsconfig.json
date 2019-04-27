@@ -16,7 +16,8 @@
     },
     "include": [
         "bigFiveJohari/*",
-        "view/*"
+        "test/*",
+        "view/*", "logicaJohari/ventanaJohariRanda.ts"
     ],
     "exclude": [
         "node_modules",
