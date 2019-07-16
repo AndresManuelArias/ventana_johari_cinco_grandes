@@ -101,17 +101,17 @@ function sacarPuntajeBigFive(puntajesPersona, tablaPuntajes, escalaPuntaje) {
     return scoreBigfive;
 }
 exports.sacarPuntajeBigFive = sacarPuntajeBigFive;
-function generarBigFiveJohariPorcentaje(ventanaDeJohariUsuario, tablaPuntajes, escalaPuntaje) {
+function bigFiveJohariVariasPersonasPorcentajeFactores(ventanaDeJohariUsuario, tablaPuntajes, escalaPuntaje) {
     // const sumaFactores = (factor:number|number[]) => { 
     //     return Array.isArray(factor)?R.sum(factor):factor;
     // };         
     const convetirMapToJson = (comportamientos) => {
-        return bifivePersonasPorcentajeFactores(comportamientos, tablaPuntajes, escalaPuntaje);
+        return bifiveUnaPersonaPorcentajeDeFactores(comportamientos, tablaPuntajes, escalaPuntaje);
     };
-    return R.map(convetirMapToJson, ventanaDeJohariUsuario); //en los resultados que dan array lo mejor es hacer una suma
+    return R.map(convetirMapToJson, ventanaDeJohariUsuario);
 }
-exports.generarBigFiveJohariPorcentaje = generarBigFiveJohariPorcentaje;
-function bifivePersonasPorcentajeFactores(puntajesPersona, tablaPuntajes, escalaPuntaje) {
+exports.bigFiveJohariVariasPersonasPorcentajeFactores = bigFiveJohariVariasPersonasPorcentajeFactores;
+function bifiveUnaPersonaPorcentajeDeFactores(puntajesPersona, tablaPuntajes, escalaPuntaje) {
     let bigFivePuntajes = convertirPuntajeBigFiveInJson(sacarPuntajeBigFive(puntajesPersona, tablaPuntajes, escalaPuntaje));
     let pesos = sacarPesosAdjetivos(puntajesPersona, tablaPuntajes);
     let pesosBifive = {};
@@ -125,13 +125,13 @@ function bifivePersonasPorcentajeFactores(puntajesPersona, tablaPuntajes, escala
         "responsabilidad": 0,
         "apertura": 0 };
     for (let index in bigFivePuntajes) {
-        console.log('index', index, 'ponderado', promedioPonderado(bigFivePuntajes[index], pesosBifive[index]));
+        // console.log('index',index,'ponderado',promedioPonderado(bigFivePuntajes[index],pesosBifive[index]))
         bigFiveJson[index] = promedioPonderado(bigFivePuntajes[index], pesosBifive[index]) * 100;
     }
-    console.log('bigFiveJson', bigFiveJson);
+    // console.log('bigFiveJson',bigFiveJson)
     return bigFiveJson;
 }
-exports.bifivePersonasPorcentajeFactores = bifivePersonasPorcentajeFactores;
+exports.bifiveUnaPersonaPorcentajeDeFactores = bifiveUnaPersonaPorcentajeDeFactores;
 function sacarPesosAdjetivos(puntajesPersona, tablaPuntajes) {
     let filtrados = tablaPuntajes; //.filter((fila)=> puntajesPersona[fila["Adjetivo"]] )
     let bigFiveJson = {
@@ -149,8 +149,8 @@ function sacarPesosAdjetivos(puntajesPersona, tablaPuntajes) {
     return bigFiveJson;
 }
 function promedioPonderado(puntajesFactorizado, pesos) {
-    console.log('puntajesFactorizado', puntajesFactorizado, 'pesos', pesos);
-    console.log(sumaFactores(puntajesFactorizado) / R.sum(pesos));
+    // console.log('puntajesFactorizado',puntajesFactorizado,'pesos',pesos)
+    // console.log(sumaFactores(puntajesFactorizado)/R.sum(pesos))
     let sumaPeso = R.sum(pesos);
     let dividendo = sumaPeso == 0 ? 1 : sumaPeso;
     return sumaFactores(puntajesFactorizado) / dividendo;
