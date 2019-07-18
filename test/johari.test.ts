@@ -1,4 +1,5 @@
 const VentanaJohariRanda = require("../logicaJohari/ventanaJohariRanda");
+const {BigFive} = require("../bigFiveJohari/bigFive");
 // console.log(VentanaJohariRanda)
 let ventanaJohariRanda = new VentanaJohariRanda.VentanaJohariRanda(
     {
@@ -10,11 +11,6 @@ let ventanaJohariRanda = new VentanaJohariRanda.VentanaJohariRanda(
     }
 )
 
-function mostrarllaves(table:any[],columna:string):string[]{
-    let array:string[] = []
-    VentanaJohariRanda.seleccionarEntornos(table,columna).forEach((element:any,keys:any) =>  { array.push(keys)});
-    return array;
-}
 
 test('probando sin evaluado',  () => {
     let table = [
@@ -361,4 +357,78 @@ test('probando con autoevaluado sin calificar y  nuevos evaluadores que califica
     expect( evaluadorArray).toEqual(['carlos', 'sebastian','tatiana', 'arturo','miguel',"santiago",'hernesto'] );
     let keysEvaluado = mostrarllaves(table,'evaluado');
     expect( keysEvaluado).toEqual([ 'miguel','arturo'] );
+});
+let adjetivos = [
+    {
+    "Adjetivo":'actitud',
+    "amabilidad":1,
+    "neuroticismo":0,
+    "extraversión":0.9,
+    "responsabilidad":0.9,
+    "apertura":0.9},
+    {
+        "Adjetivo":'felicidad',
+        "amabilidad":1,
+        "neuroticismo":0,
+        "extraversión":0.5,
+        "responsabilidad":0.25,
+        "apertura":0.75},
+    {
+        "Adjetivo":'tristeza',
+        "amabilidad":0.25,
+        "neuroticismo":1,
+        "extraversión":0,
+        "responsabilidad":0,
+        "apertura":0},
+    {
+        "Adjetivo":'lealtad',
+        "amabilidad":1,
+        "neuroticismo":0,
+        "extraversión":1,
+        "responsabilidad":0.5,
+        "apertura":0.25}
+]
+const bigFive = new BigFive(adjetivos, { max:5,min:0},{dominio:'mean'/*,rango:'mean'*/})
+
+function mostrarllaves(table:any[],columna:string):string[]{
+    let array:string[] = []
+    VentanaJohariRanda.seleccionarEntornos(table,columna).forEach((element:any,keys:any) =>  { array.push(keys)});
+    return array;
+}
+test('probando sin evaluado big five',  () => {
+    let table = [
+        {
+            entorno:'amigos',
+            fecha:'12-08-2018',
+            evaluado:'miguel',
+            evaluador:'carlos',
+            actitud:5,
+            felicidad:5,
+            tristeza:5,
+            lealtad:0
+        }
+        ,{
+            entorno:'amigos',
+            fecha:'12-08-2018',
+            evaluado:'miguel',
+            evaluador:'sebastian',
+            actitud:5,
+            felicidad:5,
+            tristeza:0,
+            lealtad:0
+        }
+        ]
+    let resultado = ventanaJohariRanda.analizar(table);
+    console.log(resultado);
+    console.log( "resultado[0]['personas_entorno']",resultado[0]['personas_entorno']);
+    console.log( "resultado[0]['personas_entorno'][0]['ventana de johari'].zonaCiega",resultado[0]['personas_entorno'][0]['ventana de johari'].zonaCiega);
+    let resultadoBigFive = bigFive.sacarPuntajeBigFive(resultado[0]['personas_entorno'][0]['ventana de johari'].zonaCiega)
+    console.log('big five',bigFive.sacarPuntajeBigFive(resultado[0]['personas_entorno'][0]['ventana de johari'].zonaCiega))
+
+    expect( resultadoBigFive.get('amabilidad')).toEqual([5,5,0.625] );// primero saca un promedio de todo lo calificado por los usuario, despues multiplica por el peso
+    expect( resultadoBigFive.get('neuroticismo')).toEqual([0,0,2.5] );
+    expect( resultadoBigFive.get('extraversión')).toEqual([4.5,2.5,0] );
+    expect( resultadoBigFive.get('responsabilidad')).toEqual([4.5,1.25,0] );
+    expect( resultadoBigFive.get('apertura')).toEqual([4.5,3.75,0] );
+    
 });

@@ -23,6 +23,7 @@
     "chart.js": "^2.7.3",
     "csvdata": "^1.7.0",
     "global": "^4.3.2",
+    "jStat": "^1.8.5",
     "ramda": "^0.26.1",
     "ts-node": "^8.2.0",
     "typescript": "^3.5.3"
