@@ -190,8 +190,9 @@ class Graficar {
                 if (error)
                     console.log(error);
                 else
-                    console.log('body', body, 'body', codigo);
-                console.log(`grafica barra agregada`);
+                    // console.log('body',body,
+                    //     'body',codigo)
+                    console.log(`grafica barra agregada`);
             });
         }
         return elementGrafit;

@@ -132,12 +132,12 @@ export class VentanaJohariRanda{
         this.columnasAnalizar = columnasAnalizar        
     }
 
-   public analizar(dataTable:fila[]){// es un array que contiene json
+   public analizar(dataTable:fila[]):DatosEntorno[]{// es un array que contiene json
         let columnasAnalizar:ColumnasAnalizar = this.columnasAnalizar
         let columnaEntorno:string = this.columnasAnalizar.definirColumnaEntorno
         let entornos:Map<string,any[]> = seleccionarEntornos(dataTable,columnaEntorno);
         this.entornos =  entornos
-        let coleccionEntornos:any = []
+        let coleccionEntornos:DatosEntorno[] = []
         entornos.forEach((dataEntorno,nombreEntornoIndex)=>{ 
             let construccionData:DatosEntorno = clasificar(dataEntorno,columnasAnalizar,nombreEntornoIndex);        
             coleccionEntornos.push(construccionData)
@@ -149,4 +149,4 @@ export class VentanaJohariRanda{
     }
 }
 
-export{generarVentanaPersona,seleccionarEntornos}
+export{generarVentanaPersona,seleccionarEntornos,ColumnasAnalizar,fila,DatosEntorno}

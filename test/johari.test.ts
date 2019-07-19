@@ -1,5 +1,6 @@
 const VentanaJohariRanda = require("../logicaJohari/ventanaJohariRanda");
-const {BigFive} = require("../bigFiveJohari/bigFive");
+const {BigFive} = require("../bigFive/bigFive");
+const {JohariBigfive} = require("../bigFiveJohari/johariBigfive");
 // console.log(VentanaJohariRanda)
 let ventanaJohariRanda = new VentanaJohariRanda.VentanaJohariRanda(
     {
@@ -422,8 +423,10 @@ test('probando sin evaluado big five',  () => {
     console.log(resultado);
     console.log( "resultado[0]['personas_entorno']",resultado[0]['personas_entorno']);
     console.log( "resultado[0]['personas_entorno'][0]['ventana de johari'].zonaCiega",resultado[0]['personas_entorno'][0]['ventana de johari'].zonaCiega);
-    let resultadoBigFive = bigFive.sacarPuntajeBigFive(resultado[0]['personas_entorno'][0]['ventana de johari'].zonaCiega)
-    console.log('big five',bigFive.sacarPuntajeBigFive(resultado[0]['personas_entorno'][0]['ventana de johari'].zonaCiega))
+    let resultadoBigFive = bigFive.sacarPuntajeBigFive(resultado[0]['personas_entorno'][0]['ventana de johari'].zonaCiega) 
+    console.log('big five sin datos',bigFive.sacarPuntajeBigFive(resultado[0]['personas_entorno'][0]['ventana de johari'].zonaAbierta))
+    
+    console.log('big five',resultadoBigFive)
 
     expect( resultadoBigFive.get('amabilidad')).toEqual([5,5,0.625] );// primero saca un promedio de todo lo calificado por los usuario, despues multiplica por el peso
     expect( resultadoBigFive.get('neuroticismo')).toEqual([0,0,2.5] );
@@ -431,4 +434,148 @@ test('probando sin evaluado big five',  () => {
     expect( resultadoBigFive.get('responsabilidad')).toEqual([4.5,1.25,0] );
     expect( resultadoBigFive.get('apertura')).toEqual([4.5,3.75,0] );
     
+});
+
+
+const johariBigfive = new JohariBigfive(    {
+    definirColumnaEntorno:'entorno',
+    definirColumnaFecha:'fecha',
+    definirColumnaEvaluado:'evaluado',
+    definirColumnaEvaluador:'evaluador',
+    definirColumnasCalificaciones:['actitud','felicidad','tristeza','lealtad'],
+},adjetivos, { max:5,min:0},{dominio:'mean',rango:'mean'})
+
+test('probando sin evaluado johari big five',  () => {
+    let table = [ 
+        {
+            entorno:'otros',
+            fecha:'12-08-2018',
+            evaluado:'carlos',
+            evaluador:'miguel',
+            actitud:5,
+            felicidad:5,
+            tristeza:5,
+            lealtad:0
+        },
+        {
+        entorno:'amigos',
+        fecha:'12-08-2018',
+        evaluado:'carlos',
+        evaluador:'miguel',
+        actitud:5,
+        felicidad:5,
+        tristeza:5,
+        lealtad:0
+    },
+        {
+            entorno:'amigos',
+            fecha:'12-08-2018',
+            evaluado:'miguel',
+            evaluador:'carlos',
+            actitud:5,
+            felicidad:5,
+            tristeza:5,
+            lealtad:0
+        }
+        ,{
+            entorno:'amigos',
+            fecha:'12-08-2018',
+            evaluado:'miguel',
+            evaluador:'sebastian',
+            actitud:5,
+            felicidad:5,
+            tristeza:0,
+            lealtad:0
+        }
+        ]
+        table.push({
+            entorno:'amigos',
+            fecha:'12-08-2018',
+            evaluado:'arturo',
+            evaluador:'arturo',
+            actitud:2,
+            felicidad:3,
+            tristeza:2,
+            lealtad:0
+        })
+        table.push({
+            entorno:'amigos',
+            fecha:'12-08-2018',
+            evaluado:'miguel',
+            evaluador:'miguel',
+            actitud:2,
+            felicidad:3,
+            tristeza:2,
+            lealtad:0
+        })
+    let resultado = johariBigfive.analizar(table);
+    console.log('resultado', resultado)
+    resultado.forEach((entorno:any)=>{
+        entorno['personas_entorno'].forEach((element:any) => {
+            console.log(element)        
+        });
+    })
+});
+
+
+
+
+test('probando sin operacion johari big five',  () => {
+    const johariBigfive = new JohariBigfive(    {
+        definirColumnaEntorno:'entorno',
+        definirColumnaFecha:'fecha',
+        definirColumnaEvaluado:'evaluado',
+        definirColumnaEvaluador:'evaluador',
+        definirColumnasCalificaciones:['actitud','felicidad','tristeza','lealtad'],
+    },adjetivos, { max:5,min:0})
+    let table = [ 
+        {
+            entorno:'otros',
+            fecha:'12-08-2018',
+            evaluado:'carlos',
+            evaluador:'miguel',
+            actitud:5,
+            felicidad:5,
+            tristeza:5,
+            lealtad:0
+        },
+        {
+        entorno:'amigos',
+        fecha:'12-08-2018',
+        evaluado:'carlos',
+        evaluador:'miguel',
+        actitud:5,
+        felicidad:5,
+        tristeza:5,
+        lealtad:0
+    },
+        {
+            entorno:'amigos',
+            fecha:'12-08-2018',
+            evaluado:'miguel',
+            evaluador:'carlos',
+            actitud:5,
+            felicidad:5,
+            tristeza:5,
+            lealtad:0
+        }
+        ,{
+            entorno:'amigos',
+            fecha:'12-08-2018',
+            evaluado:'miguel',
+            evaluador:'sebastian',
+            actitud:5,
+            felicidad:5,
+            tristeza:0,
+            lealtad:0
+        }
+        ]
+     
+    let resultado = johariBigfive.analizar(table);
+    console.log('resultado', resultado)
+    resultado.forEach((entorno:any)=>{
+        entorno['personas_entorno'].forEach((element:any) => {
+            console.log(element)        
+        });
+    })
 });
