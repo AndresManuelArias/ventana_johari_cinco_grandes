@@ -76,18 +76,20 @@ type BigFiveJson = {
 "responsabilidad":number|number[]
 "apertura":number|number[]
 }
-function convertirPuntajeBigFiveInJson(resultadoBigFive:Map<string,number[]>):BigFiveJson{
-    let bigFiveJson:BigFiveJson ={            
-        "amabilidad":null,
-        "neuroticismo":null,
-        "extraversión":null,
-        "responsabilidad":null,
-        "apertura":null
-    }
-    for (var [clave, valor] of resultadoBigFive) {
-        bigFiveJson[clave] = valor
-      }
-    return bigFiveJson;
+function convertirPuntajeBigFiveInJson(resultadoBigFive:Map<string,number[]>):any|BigFiveJson{
+    // let bigFiveJson:BigFiveJson ={            
+    //     "amabilidad":null,
+    //     "neuroticismo":null,
+    //     "extraversión":null,
+    //     "responsabilidad":null,
+    //     "apertura":null
+    // }
+    // for (var [clave, valor] of resultadoBigFive) {
+    //     bigFiveJson[clave] = valor
+    //   } v11.14.0 at /home/andres/.nvm/versions/node/v11.14.0/bin/node
+    // return bigFiveJson;
+    let bigFiveJson:any|BigFiveJson = Object.fromEntries(resultadoBigFive)
+    return bigFiveJson
 }
 
 function sacarPuntajeBigFiveJson(puntajesPersona:Comportamientos, tablaPuntajes:TablaPuntajes[],escalaPuntaje:EscalaPuntaje,operacion?:Operacion):BigFiveJson{

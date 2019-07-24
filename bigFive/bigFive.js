@@ -50,16 +50,18 @@ function sacarPuntajeBigFive(puntajesPersona, tablaPuntajes, escalaPuntaje, oper
     return scoreBigfive;
 }
 function convertirPuntajeBigFiveInJson(resultadoBigFive) {
-    let bigFiveJson = {
-        "amabilidad": null,
-        "neuroticismo": null,
-        "extraversión": null,
-        "responsabilidad": null,
-        "apertura": null
-    };
-    for (var [clave, valor] of resultadoBigFive) {
-        bigFiveJson[clave] = valor;
-    }
+    // let bigFiveJson:BigFiveJson ={            
+    //     "amabilidad":null,
+    //     "neuroticismo":null,
+    //     "extraversión":null,
+    //     "responsabilidad":null,
+    //     "apertura":null
+    // }
+    // for (var [clave, valor] of resultadoBigFive) {
+    //     bigFiveJson[clave] = valor
+    //   }
+    // return bigFiveJson;
+    let bigFiveJson = Object.fromEntries(resultadoBigFive);
     return bigFiveJson;
 }
 exports.convertirPuntajeBigFiveInJson = convertirPuntajeBigFiveInJson;
