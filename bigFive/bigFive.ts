@@ -86,7 +86,7 @@ function convertirPuntajeBigFiveInJson(resultadoBigFive:Map<string,number[]>):an
     // }
     // for (var [clave, valor] of resultadoBigFive) {
     //     bigFiveJson[clave] = valor
-    //   } v11.14.0 at /home/andres/.nvm/versions/node/v11.14.0/bin/node
+    //   } 
     // return bigFiveJson;
     let bigFiveJson:any|BigFiveJson = Object.fromEntries(resultadoBigFive)
     return bigFiveJson
