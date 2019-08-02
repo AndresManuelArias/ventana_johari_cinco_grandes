@@ -1,4 +1,4 @@
-const R = require('ramda');
+import * as R from 'ramda'
 type Zonas ={
     [key: string]: Map<string,number[]>
     zonaAbierta:Map<string,number[]>

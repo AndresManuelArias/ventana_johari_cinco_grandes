@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-const R = require('ramda');
+import * as R from 'ramda'
 
 import {Graficar} from './Graficar';
 

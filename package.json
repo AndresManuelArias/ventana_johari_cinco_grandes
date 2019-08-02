@@ -16,16 +16,18 @@
     "@types/chart.js": "^2.7.42",
     "@types/jest": "^24.0.15",
     "@types/node": "^10.12.18",
+    "@types/ramda": "types/npm-ramda#dist",
     "jest": "^24.8.0",
     "ts-jest": "^24.0.2"
   },
   "dependencies": {
     "chart.js": "^2.7.3",
     "csvdata": "^1.7.0",
-    "global": "^4.3.2",
+    "global": "^4.4.0",
     "jStat": "^1.8.5",
     "ramda": "^0.26.1",
-    "ts-node": "^8.2.0",
+    "ts-node": "^8.3.0",
     "typescript": "^3.5.3"
-  }
+  },
+  "type": "module"
 }

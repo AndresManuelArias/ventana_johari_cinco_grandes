@@ -1,5 +1,5 @@
 // este solo recive los adjetivos
-const R = require('ramda');
+import * as R from 'ramda'
 var jStat = require('jStat').jStat;
 type EscalaPuntaje ={
     max:number,
