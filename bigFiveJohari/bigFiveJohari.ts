@@ -1,6 +1,6 @@
 import { isArray } from "util";
 
-import * as R from 'ramda'
+const R = require('ramda');
 
 interface Zona {
     comportamiento:string
