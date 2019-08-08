@@ -6,7 +6,7 @@ import {Graficar} from './Graficar';
 import  {UsuarioVentanaDeJohariBigFiveJson}  from '../bigFiveJohari/bigFiveJohari';
 var datosVentanaDeHonaryBigFive:string = fs.readFileSync('../data_base/ventanaDeHonaryBigFiveRespuesta.json','utf-8');
 
-var graficar = new Graficar({savePage:'../public/graficaTabulacion.html',title:'big five'})
+var graficar = new Graficar({savePage:'../public/graficaTabulacionAdsi1.html',title:'big five'})
 type Entorno  ={
     "nombre_entorno":string
     "personas_entorno":UsuarioVentanaDeJohariBigFiveJson
@@ -30,7 +30,7 @@ objectVentanaDeHonaryBigFive[0]["personas_entorno"].forEach((people:any,index:an
     var zonas:any[] = ["zonaAbierta",
         "zonaCiega",
         "zonaOculta"] //R.keys(people["ventana de johari"])
-    var bigFive:any[] = R.keys(people["ventana de johari"][zonas[0]])
+    var bigFive:any[] = R.keys(people["ventana de johari"]['zonaDesconocida'])
     var puntajeZonasPorcentajes:any = []
     zonas.forEach((zona:any)=>{
         let y:number[] = [];
@@ -67,11 +67,17 @@ objectVentanaDeHonaryBigFive[0]["personas_entorno"].forEach((people:any,index:an
     console.log('sumaTotalScore',sumaTotalScorep)
     bigFive.forEach((factor:number)=>{
         console.log(people['nombre usuario'],' sumaTotalScore opinion propia',sumaTotalScorep)
-        ypScore.push(people["opinion propia"][factor])      
+        ypScore.push(people["opinion propia"][factor])     
+        ypScore.push(people["opinion otros"][factor])     
     }) // verificar por que la opinion propia no es igual a la suma de la zona abierta con la zona oculta, verificar si las sumas o lo promedios alteran estos datos
     puntajeZonas.push({y:ypScore,title:"opinion propia"})
-
-
+    let ypScoreOtros:number[] = [];
+    
+    bigFive.forEach((factor:number)=>{
+        console.log(people['nombre usuario'],' sumaTotalScore opinion otros',sumaTotalScorep)   
+        ypScoreOtros.push(people["opinion otros"][factor])  
+    }) // verificar por que la opinion propia no es igual a la suma de la zona abierta con la zona oculta, verificar si las sumas o lo promedios alteran estos datos
+    puntajeZonas.push({y:ypScoreOtros,title:"opinion otros"})
     graficar.graficarTorta(bigFive,puntajeZonasPorcentajes,{id:index+'p',title:people['nombre usuario']})
     graficar.graficarBarras(bigFive,puntajeZonas,{id:index+'b',title:people['nombre usuario']})
 

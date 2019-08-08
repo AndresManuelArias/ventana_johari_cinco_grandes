@@ -23,7 +23,7 @@ class JohariBigfive {
                 personas_entorno['ventana de johari'].zonaOculta = this.bigFive.sacarPuntajeBigFiveJson(personas_entorno['ventana de johari'].zonaOculta);
                 personas_entorno['ventana de johari'].zonaDesconocida = this.bigFive.sacarPuntajeBigFiveJson(personas_entorno['ventana de johari'].zonaDesconocida);
                 personas_entorno['opinion propia'] = this.bigFive.sacarPuntajeBigFiveJson(personas_entorno['opinion propia']);
-                personas_entorno['opinion otros'] = this.bigFive.sacarPuntajeBigFiveJsonArray(personas_entorno['opinion otros']);
+                personas_entorno['opinion otros'] = this.bigFive.sacarPuntajeBigFiveJson(personas_entorno['opinion otros']);
                 return personas_entorno;
             });
             return entorno;

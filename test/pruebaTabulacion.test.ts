@@ -32,8 +32,8 @@ test('probar sacar puntajes big five', async () => {
             'tímido','egoísta','temerario','tonto','mandón','rencoroso','ignorante','simpático','amable','imprudente','vulgar','pesimista','inquieto','ingenuo',
             'terco','irracional','previsible','extrovertido','débil','violento','pasivo','físgón','tenso','relajado','sensible','frío','orgulloso','tranquilo','flexible','maduro','feliz','distante'
         ],
-    },adjetivos, { max:1,min:0},{dominio:'mean',rango:'mean'})
-    const johariRespuestas = await csvdata.load("data_base/ventana de johari (respuestas)  - tabulacion comportamientos.csv", {
+    },adjetivos, { max:1,min:0},'mean')
+    const johariRespuestas = await csvdata.load("data_base/ventana de johari (respuestas) ADSI - tabulacion comportamientos.csv", {
         delimiter: ',',
         encoding: 'utf8',
         log: true,
