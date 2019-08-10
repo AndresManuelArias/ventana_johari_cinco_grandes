@@ -4,7 +4,7 @@ import * as R from 'ramda'
 import {Graficar} from './Graficar';
 
 import  {UsuarioVentanaDeJohariBigFiveJson}  from '../bigFiveJohari/bigFiveJohari';
-var datosVentanaDeHonaryBigFive:string = fs.readFileSync('../data_base/ventanaDeHonaryBigFiveRespuesta.json','utf-8');
+var datosVentanaDeHonaryBigFive:string = fs.readFileSync('../data_base/ventanaDeHonaryBigFiveRespuestaSum.json','utf-8');
 
 var graficar = new Graficar({savePage:'../public/graficaTabulacionAdsi1.html',title:'big five'})
 type Entorno  ={

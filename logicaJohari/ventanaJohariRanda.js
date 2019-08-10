@@ -73,6 +73,10 @@ function seleccionarEntornos(dataTable, columnaEntorno) {
     return entornos;
 }
 exports.seleccionarEntornos = seleccionarEntornos;
+function columnasSeleccionar(columnasAnalizar) {
+    return R.pick(columnasAnalizar.definirColumnasCalificaciones);
+}
+exports.columnasSeleccionar = columnasSeleccionar;
 function mostrarOpinionOtros(calificacionesEvaluado, columnasAnalizar) {
     let opinionOtros = calificadoresDistintos(calificacionesEvaluado, columnasAnalizar.definirColumnaEvaluador, columnasAnalizar.definirColumnaEvaluado);
     let functionopinionOtros = R.pick(columnasAnalizar.definirColumnasCalificaciones);
@@ -85,6 +89,7 @@ function mostrarOpinionOtros(calificacionesEvaluado, columnasAnalizar) {
         return finOpinionOtros;
     }
 }
+exports.mostrarOpinionOtros = mostrarOpinionOtros;
 function convertirPropiedadesEnArray(fila) {
     let convertido = {};
     for (let key in fila) {

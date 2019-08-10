@@ -35,7 +35,7 @@ function sacarPuntajeBigFive(puntajesPersona, tablaPuntajes, escalaPuntaje, oper
                 // console.log('puntajeFactor',puntajeFactor)
                 // console.log('puntajesPersona[fila["Adjetivo"]]',puntajesPersona[fila["Adjetivo"]])
                 // console.log('fila["Adjetivo"]',fila["Adjetivo"])
-                let pesosAdjetivosBigFive = puntajesPersona[fila["Adjetivo"]].map(puntajeAdjetivo => darPeso(puntajeAdjetivo, puntajeFactor, escalaPuntaje));
+                let pesosAdjetivosBigFive = Array.isArray(puntajesPersona[fila["Adjetivo"]]) ? puntajesPersona[fila["Adjetivo"]].map(puntajeAdjetivo => darPeso(puntajeAdjetivo, puntajeFactor, escalaPuntaje)) : [darPeso([puntajesPersona[fila["Adjetivo"]]].flat()[0], puntajeFactor, escalaPuntaje)];
                 // console.log('pesosAdjetivosBigFive',pesosAdjetivosBigFive)
                 if (scoreBigfive.has(factor)) { //una coleccion que tiene valor de 0, es por que ese abjetivo tiene un valor de cero en un factor pero no en otros factores
                     // console.log('scoreBigfive.get(factor)',scoreBigfive.get(factor))

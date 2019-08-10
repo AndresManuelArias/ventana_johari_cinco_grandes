@@ -10,7 +10,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
 const R = __importStar(require("ramda"));
 const Graficar_1 = require("./Graficar");
-var datosVentanaDeHonaryBigFive = fs.readFileSync('../data_base/ventanaDeHonaryBigFiveRespuesta.json', 'utf-8');
+var datosVentanaDeHonaryBigFive = fs.readFileSync('../data_base/ventanaDeHonaryBigFiveRespuestaSum.json', 'utf-8');
 var graficar = new Graficar_1.Graficar({ savePage: '../public/graficaTabulacionAdsi1.html', title: 'big five' });
 function verOpinionDe(columna, people, bigFive) {
     let yd = [];

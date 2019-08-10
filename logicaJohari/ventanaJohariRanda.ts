@@ -84,7 +84,10 @@ type DatosEntorno ={
     "personas_entorno":any[]
     "nombre_entorno":string
 }
-function mostrarOpinionOtros(calificacionesEvaluado:fila[],columnasAnalizar:ColumnasAnalizar){
+export function columnasSeleccionar(columnasAnalizar:ColumnasAnalizar){
+    return R.pick(columnasAnalizar.definirColumnasCalificaciones)
+}
+export function mostrarOpinionOtros(calificacionesEvaluado:fila[],columnasAnalizar:ColumnasAnalizar){
     let opinionOtros = calificadoresDistintos(calificacionesEvaluado,columnasAnalizar.definirColumnaEvaluador,columnasAnalizar.definirColumnaEvaluado)
     let functionopinionOtros =  R.pick(columnasAnalizar.definirColumnasCalificaciones);                
     let finOpinionOtros = opinionOtros.map((filaOpinionOtro)=> functionopinionOtros(filaOpinionOtro))
