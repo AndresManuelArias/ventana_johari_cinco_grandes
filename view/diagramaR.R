@@ -23,12 +23,31 @@ for(lugar in unique( bigFive$entorno)){
         c("amabilidad","neuroticismo","extraversión","responsabilidad","apertura")
         print(persona)
         print(filtradoPersona[5:9])
+        par(mfrow=c(3,1)) 
         boxplot(filtradoPersona[5:9],main=paste("Diagrama ",lugar," ", persona),  xlab = "Factores de personalidad", ylab = "pesos",
         # horizontal = TRUE,
         cex.axis=0.8,
          las=1,
         cex.lab=1.5
         )
+        opinionOtros = subset(filtradoPersona, evaluador != persona )
+        print(opinionOtros[5:9])
+        boxplot(opinionOtros[5:9],main=paste("Opinion otros ",lugar," ", persona),  xlab = "Factores de personalidad", ylab = "pesos",
+        # horizontal = TRUE,
+        cex.axis=0.8,
+        las=1,
+        cex.lab=1.5
+        )
+                opinionPropia = subset(filtradoPersona, evaluador == persona )
+        print(opinionPropia[5:9])
+        if(nrow(opinionPropia[5:9])){
+            boxplot(opinionPropia[5:9],main=paste("Opinion propia ",lugar," ", persona),  xlab = "Factores de personalidad", ylab = "pesos",
+            # horizontal = TRUE,
+            cex.axis=0.8,
+            las=1,
+            cex.lab=1.5
+            )
+        }
         dev.off()
     }
 }

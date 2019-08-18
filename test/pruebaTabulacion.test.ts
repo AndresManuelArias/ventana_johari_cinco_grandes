@@ -11,7 +11,7 @@ import {JohariBigfive}  from "../bigFiveJohari/johariBigfive";
 
 test('probar sacar puntajes big five', async () => {
     // expect.assertions(6);
-    const adjetivos = await csvdata.load("data_base/clasificacion TCIR ventana de johari -  Análisis factorial de los adjetivos del AEP.csv", {
+    const adjetivos = await csvdata.load("data_base/clasificacion TCIR ventana de johari - analisis factorial 2.csv", {
         delimiter: ',',
         encoding: 'utf8',
         log: true,
@@ -46,7 +46,7 @@ test('probar sacar puntajes big five', async () => {
             'terco','irracional','previsible','extrovertido','débil','violento','pasivo','físgón','tenso','relajado','sensible','frío','orgulloso','tranquilo','flexible','maduro','feliz','distante'
         ],
     },adjetivos, { max:1,min:0})
-    const johariRespuestas = await csvdata.load("data_base/ventana de johari (respuestas)  - tabulacion comportamientos.csv", {
+    const johariRespuestas = await csvdata.load("data_base/ventana de johari (respuestas) ADSI - tabulacion comportamientos.csv", {
         delimiter: ',',
         encoding: 'utf8',
         log: true,

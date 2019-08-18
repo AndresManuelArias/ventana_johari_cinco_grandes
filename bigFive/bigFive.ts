@@ -6,7 +6,12 @@ type EscalaPuntaje ={
     min:number
 }
 function darPeso(puntaje:number,asignacionPuntaje:number,escalaPuntaje:EscalaPuntaje):number{
-   return puntaje *asignacionPuntaje
+   if( puntaje > escalaPuntaje.max ){
+       puntaje = escalaPuntaje.max
+   }else if( puntaje < escalaPuntaje.min ){
+       puntaje = escalaPuntaje.min
+   }
+    return puntaje *asignacionPuntaje // puede existir el problema que al multiplicarse las diferencias entre los numeros puede ser demasiado grande
 }
 function inversionPuntaje(puntaje:number,asignacionPuntaje:number,escalaPuntaje:EscalaPuntaje):number{
     let puntajeFinal:number=puntaje * Math.abs(asignacionPuntaje) // el problema de esta formula es que aumenta la diferencia entre numeros pequeños y los numeros grandes
