@@ -3,7 +3,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var jStat = require('jStat').jStat;
 function darPeso(puntaje, asignacionPuntaje, escalaPuntaje) {
-    return puntaje * asignacionPuntaje;
+    if (puntaje > escalaPuntaje.max) {
+        puntaje = escalaPuntaje.max;
+    }
+    else if (puntaje < escalaPuntaje.min) {
+        puntaje = escalaPuntaje.min;
+    }
+    return puntaje * asignacionPuntaje; // puede existir el problema que al multiplicarse las diferencias entre los numeros puede ser demasiado grande
 }
 function inversionPuntaje(puntaje, asignacionPuntaje, escalaPuntaje) {
     let puntajeFinal = puntaje * Math.abs(asignacionPuntaje); // el problema de esta formula es que aumenta la diferencia entre numeros pequeños y los numeros grandes

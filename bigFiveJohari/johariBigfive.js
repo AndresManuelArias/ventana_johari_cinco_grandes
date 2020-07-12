@@ -52,7 +52,6 @@ class JohariBigfive {
         }
         else {
             tableMap.forEach(fila => {
-                console.log('fila',fila)
                 for (let nuevaFila = 0; nuevaFila < fila.amabilidad.length; nuevaFila++) {
                     let { entorno, fecha, evaluado, evaluador, amabilidad, neuroticismo, extraversión, responsabilidad, apertura } = fila;
                     nuevaTabla.push({ entorno, fecha, evaluado, evaluador,
